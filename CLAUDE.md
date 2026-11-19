@@ -4,7 +4,7 @@ A brain-training web app for one user's iPhone (portrait, Home Screen app). It's
 for vocabulary, quick math, memory and writing, in the spirit of paid brain-training apps. **Original games,
 name, look and content.** Don't copy any existing app's games, wording or art.
 Static site, no build step, no server, no dependencies. Hosted on GitHub Pages from `main`:
-https://jafarthearab.github.io/sharpen/ (pushing to `main` publishes in about a minute; the phone may cache for ~10 min).
+https://jafarthearab.github.io/Sharpen/ (pushing to `main` publishes in about a minute; the phone may cache for ~10 min).
 The user also has a separate project, OnKey (singing practice); the two are not linked.
 
 The user is not a developer: use plain language and give exact taps, no jargon. Build in stages and check in
@@ -36,5 +36,6 @@ app; never scrape or copy from dictionaries or other apps.
   plus math in landscape. Screenshots in `tests/out/` (gitignored). Look at them before reporting a stage.
 
 ## Conventions
-- Commit as the user (`Justin <justfar@live.com>`) with the Co-Authored-By/Claude-Session trailers.
+- Commit as the user (author `Justin <justfar@live.com>`), committer Claude <noreply@anthropic.com> (a hook requires it:
+  `GIT_COMMITTER_NAME=Claude GIT_COMMITTER_EMAIL=noreply@anthropic.com git commit ...`), with the Co-Authored-By/Claude-Session trailers.
 - Keep `[hidden]{display:none!important}`. Light and dark mode both supported via CSS variables.
