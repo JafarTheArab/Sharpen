@@ -7,9 +7,9 @@ export const ROUND = 10;
 const GAP_DAYS = [0, 1, 2, 4, 8, 16, 30]; // days until a word comes back, by box
 
 export function tiersFor(level) {
-  if (level <= 3) return [1];
-  if (level <= 5) return [1, 2];
-  if (level <= 7) return [2];
+  if (level <= 2) return [1];
+  if (level <= 4) return [1, 2];
+  if (level <= 6) return [2];
   if (level <= 8) return [2, 3];
   return [3];
 }

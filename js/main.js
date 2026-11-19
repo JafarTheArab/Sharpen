@@ -5,7 +5,7 @@ import { todayPlan, recordResult, streak, workoutDone, MAX_LEVEL } from './plan.
 import { knownCount } from './games/vocab.js';
 import { ymd, h } from './util.js';
 
-export const VERSION = 'Stage 1 · 2026-11-19';
+export const VERSION = 'Stage 1.1 · 2026-11-19';
 const app = document.getElementById('app');
 let running = null; // AbortController of the game being played
 let onHome = false;
@@ -85,8 +85,8 @@ function intro(id, mode) {
       h('div', { class: 'muted' }, g.area),
       h('h1', {}, g.name),
       h('p', {}, g.how),
-      h('div', { class: 'pill' }, `Level ${lvl} of ${MAX_LEVEL}`),
-      h('button', { class: 'btn primary big wide', id: 'go', onclick: () => play(id, mode) }, 'Start')));
+      h('div', { class: 'pill' }, `Level ${lvl} of ${MAX_LEVEL}`)),
+    h('button', { class: 'btn primary big wide dock', id: 'go', onclick: () => play(id, mode) }, 'Start'));
 }
 
 // ---------- Play ----------
@@ -128,13 +128,14 @@ async function play(id, mode) {
 function result(id, mode, res, { before, after }, justFinished) {
   const d = today(), day = store.data.days[d];
   const next = day.plan.find((x) => day.done[x] == null);
-  const levelLine = after > before ? `Level up! You're now on level ${after}.`
+  const levelLine = after - before >= 2 ? `Perfect! Jumped up to level ${after}.`
+    : after > before ? `Level up! You're now on level ${after}.`
     : after < before ? `Eased back to level ${after}. It adjusts as you go.`
     : `Staying on level ${after}.`;
   let btn;
-  if (justFinished) btn = h('button', { class: 'btn primary big wide', id: 'next', onclick: finished }, 'Finish workout');
-  else if (mode === 'workout' && next) btn = h('button', { class: 'btn primary big wide', id: 'next', onclick: () => intro(next, 'workout') }, `Next: ${GAMES[next].name}`);
-  else btn = h('button', { class: 'btn primary big wide', id: 'next', onclick: home }, 'Back home');
+  if (justFinished) btn = h('button', { class: 'btn primary big wide dock', id: 'next', onclick: finished }, 'Finish workout');
+  else if (mode === 'workout' && next) btn = h('button', { class: 'btn primary big wide dock', id: 'next', onclick: () => intro(next, 'workout') }, `Next: ${GAMES[next].name}`);
+  else btn = h('button', { class: 'btn primary big wide dock', id: 'next', onclick: home }, 'Back home');
 
   const items = res.review || [];
   show(
@@ -144,14 +145,14 @@ function result(id, mode, res, { before, after }, justFinished) {
       h('div', { class: 'score', style: { color: GAMES[id].color } }, res.pct + '%'),
       h('div', { class: 'summary' }, res.summary),
       res.extra ? h('div', { class: 'muted' }, res.extra) : null,
-      h('div', { class: 'pill' + (after > before ? ' up' : '') }, levelLine),
-      btn),
+      h('div', { class: 'pill' + (after > before ? ' up' : '') }, levelLine)),
     items.length || res.reviewNote ? h('section', { class: 'card' },
       h('div', { class: 'label' }, 'Review'),
       res.reviewNote ? h('div', { class: 'muted small' }, res.reviewNote) : null,
       items.map((r) => h('div', { class: 'rev ' + (r.ok ? 'ok' : 'bad') },
         h('span', { class: 'mark' }, r.ok ? '✓' : '✗'),
-        h('div', {}, h('b', {}, r.title), h('div', { class: 'muted small' }, r.detail))))) : null);
+        h('div', {}, h('b', {}, r.title), h('div', { class: 'muted small' }, r.detail))))) : null,
+    btn);
 }
 
 function finished() {
@@ -161,8 +162,8 @@ function finished() {
     h('h1', {}, 'Workout complete!'),
     h('div', { class: 'streak on huge' }, '🔥 ', h('b', {}, s), s === 1 ? ' day streak' : ' days in a row'),
     h('div', { class: 'wlist' }, day.plan.map((id) => h('div', { class: 'wtile done' }, icon(id),
-      h('div', { class: 'wtext' }, h('div', { class: 'wname' }, GAMES[id].name)), h('div', { class: 'wstate' }, `${day.done[id]}%`)))),
-    h('button', { class: 'btn primary big wide', id: 'home', onclick: home }, 'Back home')));
+      h('div', { class: 'wtext' }, h('div', { class: 'wname' }, GAMES[id].name)), h('div', { class: 'wstate' }, `${day.done[id]}%`))))),
+    h('button', { class: 'btn primary big wide dock', id: 'home', onclick: home }, 'Back home'));
 }
 
 // A new day while the app sits open on Home: refresh the plan.

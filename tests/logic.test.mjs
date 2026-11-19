@@ -45,9 +45,9 @@ ok(`content: ${WORDS.length} words, ${SENTENCES.length} writing items, ${LIST_WO
 }
 
 // Levels
-assert.equal(levelAfter(3, 90), 4); assert.equal(levelAfter(3, 70), 3); assert.equal(levelAfter(3, 40), 2);
+assert.equal(levelAfter(3, 90), 4); assert.equal(levelAfter(3, 100), 5); assert.equal(levelAfter(9, 100), 10); assert.equal(levelAfter(3, 70), 3); assert.equal(levelAfter(3, 40), 2);
 assert.equal(levelAfter(1, 0), 1); assert.equal(levelAfter(10, 100), 10);
-ok('levels go up at 85%+, down under 55%');
+ok('levels: +2 for perfect, +1 at 85%+, -1 under 55%');
 
 // Words: missed come back first; new words at the level's tier
 {

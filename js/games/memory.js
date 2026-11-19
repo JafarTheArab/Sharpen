@@ -37,10 +37,10 @@ export async function run(root, ctx) {
     const all = got === n;
     review.push({ n, ok: all, title: `List of ${n}: ${got} found`, detail: all ? 'All of them ✓' : 'Missed: ' + list.filter((w) => !picked.includes(w)).join(', ') });
     await new Promise((resolve, reject) => {
-      root.append(h('div', { class: 'explain ' + (all ? 'ok' : 'bad') },
+      root.querySelector('.tiles').before(h('div', { class: 'explain ' + (all ? 'ok' : 'bad') },
         h('div', { class: 'verdict' }, all ? `All ${n} ✓` : `${got} of ${n}`),
-        h('div', {}, all ? 'Next list is one word longer.' : n > 3 ? 'Next list is one word shorter.' : 'Same length next time.')),
-      h('button', { class: 'btn primary wide', onclick: resolve }, t === TRIALS - 1 ? 'See results' : 'Next list'));
+        h('div', {}, all ? 'Next list is one word longer.' : n > 3 ? 'Next list is one word shorter.' : 'Same length next time.')));
+      root.append(h('button', { class: 'btn primary wide', onclick: resolve }, t === TRIALS - 1 ? 'See results' : 'Next list'));
       ctx.signal.addEventListener('abort', () => reject(new DOMException('quit', 'AbortError')));
     });
     n = clamp(all ? n + 1 : n - 1, 3, 14);
@@ -69,7 +69,7 @@ function recall(root, n, options, list, signal) {
         if (chosen.size === n) finish();
       },
     }, w));
-    root.replaceChildren(h('div', { class: 'prompt' }, info), h('div', { class: 'tiles' }, tiles));
+    root.replaceChildren(h('div', { class: 'prompt' }, info), h('div', { class: 'tiles pick-area' }, tiles));
     function finish() {
       tiles.forEach((b) => {
         b.disabled = true;

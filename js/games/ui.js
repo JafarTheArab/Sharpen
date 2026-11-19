@@ -27,9 +27,12 @@ export function ask(root, { prompt, options, correct, grid = false, signal }) {
 export function explainAndNext(root, { ok, text, label = 'Next', signal }) {
   return new Promise((resolve, reject) => {
     const btn = h('button', { class: 'btn primary wide', onclick: () => resolve() }, label);
-    root.append(h('div', { class: 'explain ' + (ok ? 'ok' : 'bad') },
+    const note = h('div', { class: 'explain ' + (ok ? 'ok' : 'bad') },
       h('div', { class: 'verdict' }, ok ? 'Right ✓' : 'Not quite'),
-      text ? h('div', {}, text) : null), btn);
+      text ? h('div', {}, text) : null);
+    const answers = root.querySelector('.choices');
+    answers ? answers.before(note) : root.append(note);
+    root.append(btn);
     btn.scrollIntoView?.({ block: 'nearest', behavior: 'smooth' });
     signal?.addEventListener('abort', () => reject(new DOMException('quit', 'AbortError')));
   });

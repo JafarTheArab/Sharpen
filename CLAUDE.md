@@ -28,7 +28,8 @@ app; never scrape or copy from dictionaries or other apps.
   resolves to `{pct, summary, extra?, review[], reviewNote?}`. `ctx = {level, data, day, signal, status(text)}`.
   `js/games/ui.js`: shared answer buttons + "Next".
 - `js/content/`: `words.js` (tiers 1-3), `sentences.js` (tiers 1-3), `listwords.js`.
-- Levels: 85%+ goes up one, under 55% goes down one.
+- Levels: 100% jumps up two, 85%+ goes up one, under 55% goes down one.
+- Answers and main buttons sit at the bottom of the screen (thumb reach, user's request); main buttons use `.dock`.
 
 ## Tests (run from the repo root)
 - `node tests/logic.test.mjs`: content sanity, plan, streak, levels, word review, math at all levels.

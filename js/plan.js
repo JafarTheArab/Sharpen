@@ -19,6 +19,7 @@ export function todayPlan(data, day) {
 }
 
 export function levelAfter(level, pct) {
+  if (pct >= 100) return clamp(level + 2, 1, MAX_LEVEL);
   if (pct >= 85) return clamp(level + 1, 1, MAX_LEVEL);
   if (pct < 55) return clamp(level - 1, 1, MAX_LEVEL);
   return level;

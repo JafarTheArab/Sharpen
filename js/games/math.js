@@ -49,8 +49,8 @@ const T = {
 
 const BY_LEVEL = [
   null,
-  ['add1', 'sub1'],
   ['add1', 'sub1', 'add2', 'mul9'],
+  ['add2', 'sub2', 'mul9', 'pct50'],
   ['add2', 'sub2', 'mul9', 'pct50'],
   ['sub2', 'mul9', 'div', 'pct10', 'pct50'],
   ['mul12', 'div', 'pct10', 'pct25', 'split'],
