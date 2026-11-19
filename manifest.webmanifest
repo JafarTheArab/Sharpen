@@ -1,0 +1,16 @@
+{
+  "name": "Sharpen",
+  "short_name": "Sharpen",
+  "description": "A 5-minute daily workout for words, math, memory and writing.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f5f3fb",
+  "theme_color": "#f5f3fb",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
