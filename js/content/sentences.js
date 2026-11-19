@@ -50,4 +50,7 @@ const RAW = [
   [3, 'The kids had free rein of the backyard.', 'The kids had free reign of the backyard.', 'It comes from loosening a horse\'s "rein," not a king\'s "reign."'],
 ];
 
-export const SENTENCES = RAW.map(([tier, right, wrong, why], i) => ({ id: 's' + i, tier, right, wrong, why }));
+import { MORE_SENTENCES } from './sentences-more.js';
+
+// New items go at the end so saved progress (ids s0, s1, ...) stays matched.
+export const SENTENCES = [...RAW, ...MORE_SENTENCES].map(([tier, right, wrong, why], i) => ({ id: 's' + i, tier, right, wrong, why }));

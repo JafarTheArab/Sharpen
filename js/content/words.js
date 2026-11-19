@@ -96,4 +96,6 @@ const RAW = [
   ['enervate', 'verb', 'to drain someone of energy', 'The long heat wave seemed to ___ the whole town.', 3],
 ];
 
-export const WORDS = RAW.map(([word, pos, def, sentence, tier]) => ({ word, pos, def, sentence, tier }));
+import { MORE_WORDS } from './words-more.js';
+
+export const WORDS = [...RAW, ...MORE_WORDS].map(([word, pos, def, sentence, tier]) => ({ word, pos, def, sentence, tier }));

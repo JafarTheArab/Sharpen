@@ -5,7 +5,7 @@ import { todayPlan, recordResult, streak, workoutDone, MAX_LEVEL } from './plan.
 import { knownCount } from './games/vocab.js';
 import { ymd, h } from './util.js';
 
-export const VERSION = 'Stage 1.1 · 2026-11-19';
+export const VERSION = 'Stage 1.2 · 2026-11-19';
 const app = document.getElementById('app');
 let running = null; // AbortController of the game being played
 let onHome = false;
