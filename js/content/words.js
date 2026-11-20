@@ -97,5 +97,6 @@ const RAW = [
 ];
 
 import { MORE_WORDS } from './words-more.js';
+import { SAY } from './pronounce.js';
 
-export const WORDS = [...RAW, ...MORE_WORDS].map(([word, pos, def, sentence, tier]) => ({ word, pos, def, sentence, tier }));
+export const WORDS = [...RAW, ...MORE_WORDS].map(([word, pos, def, sentence, tier]) => ({ word, pos, def, sentence, tier, say: SAY[word] }));

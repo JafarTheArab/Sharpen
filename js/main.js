@@ -4,8 +4,9 @@ import { GAMES, GAME_IDS, RUNNERS } from './games/index.js';
 import { todayPlan, recordResult, streak, workoutDone, MAX_LEVEL } from './plan.js';
 import { knownCount } from './games/vocab.js';
 import { ymd, h } from './util.js';
+import { sayRow } from './speak.js';
 
-export const VERSION = 'Stage 1.2 · 2026-11-19';
+export const VERSION = 'Stage 1.3 · 2026-11-20';
 const app = document.getElementById('app');
 let running = null; // AbortController of the game being played
 let onHome = false;
@@ -151,7 +152,7 @@ function result(id, mode, res, { before, after }, justFinished) {
       res.reviewNote ? h('div', { class: 'muted small' }, res.reviewNote) : null,
       items.map((r) => h('div', { class: 'rev ' + (r.ok ? 'ok' : 'bad') },
         h('span', { class: 'mark' }, r.ok ? '✓' : '✗'),
-        h('div', {}, h('b', {}, r.title), h('div', { class: 'muted small' }, r.detail))))) : null,
+        h('div', {}, h('b', {}, r.title), r.word ? sayRow(r.word, r.say, true) : null, h('div', { class: 'muted small' }, r.detail))))) : null,
     btn);
 }
 

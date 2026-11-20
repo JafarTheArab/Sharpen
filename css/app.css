@@ -106,6 +106,14 @@ p { margin: 6px 0; }
 .ask { color: var(--muted); font-size: 15px; font-weight: 600; margin-bottom: 10px; }
 .big-word { font-size: 38px; font-weight: 800; }
 .pos { color: var(--muted); font-style: italic; }
+.say { display: flex; align-items: center; justify-content: center; gap: 8px; margin: 4px 0; }
+.say.small { justify-content: flex-start; margin: 2px 0 4px; }
+.respell { color: var(--muted); font-weight: 600; letter-spacing: .5px; font-size: 17px; }
+.say.small .respell { font-size: 14px; }
+.speak { font: inherit; font-size: 20px; line-height: 1; border: 0; border-radius: 999px; width: 44px; height: 44px;
+  background: var(--line); cursor: pointer; flex: none; }
+.say.small .speak { width: 34px; height: 34px; font-size: 16px; }
+.speak:active { transform: scale(.92); }
 .sentence { font-size: 22px; line-height: 1.45; font-weight: 500; }
 .gap { color: var(--accent); font-weight: 800; letter-spacing: 1px; }
 .math-q { font-size: 34px; font-weight: 800; padding: 18px 0 8px; font-variant-numeric: tabular-nums; }

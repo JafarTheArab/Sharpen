@@ -28,7 +28,9 @@ app; never scrape or copy from dictionaries or other apps.
   resolves to `{pct, summary, extra?, review[], reviewNote?}`. `ctx = {level, data, day, signal, status(text)}`.
   `js/games/ui.js`: shared answer buttons + "Next".
 - `js/content/`: `words.js` + `words-more.js` (tiers 1-3), `sentences.js` + `sentences-more.js` (tiers 1-3; add new
-  items at the end only, ids are by position), `listwords.js`. Avoid near-synonyms in the same tier (they become wrong
+  items at the end only, ids are by position), `listwords.js`, `pronounce.js`
+  (every word needs a "say it" respelling; `SPEAK_AS` fixes words the phone voice says wrong). `js/speak.js`: 🔊 button
+  using the built-in Web Speech voice. Avoid near-synonyms in the same tier (they become wrong
   answers for each other).
 - Levels: 100% jumps up two, 85%+ goes up one, under 55% goes down one.
 - Answers and main buttons sit at the bottom of the screen (thumb reach, user's request); main buttons use `.dock`.

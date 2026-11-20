@@ -2,6 +2,7 @@
 import { WORDS } from '../content/words.js';
 import { shuffle, addDays, h } from '../util.js';
 import { ask, explainAndNext } from './ui.js';
+import { sayRow } from '../speak.js';
 
 export const ROUND = 10;
 const GAP_DAYS = [0, 1, 2, 4, 8, 16, 30]; // days until a word comes back, by box
@@ -66,15 +67,15 @@ export async function run(root, ctx) {
       ? h('div', {}, h('div', { class: 'ask' }, 'Which word fits?'),
           h('div', { class: 'sentence' }, ...w.sentence.split('___').flatMap((p, j) => j ? [h('span', { class: 'gap' }, '_____'), p] : [p])))
       : h('div', {}, h('div', { class: 'ask' }, 'What does it mean?'),
-          h('div', { class: 'big-word' }, w.word), h('div', { class: 'pos' }, w.pos));
+          h('div', { class: 'big-word' }, w.word), sayRow(w.word, w.say), h('div', { class: 'pos' }, w.pos));
     const { ok } = await ask(root, { prompt, options, correct, signal: ctx.signal });
     if (ok) right++;
     updateWord(words, w.word, ok, ctx.day);
-    review.push({ ok, title: w.word, detail: w.def });
+    review.push({ ok, title: w.word, detail: w.def, word: w.word, say: w.say });
     const filled = w.sentence.replace('___', w.word);
     await explainAndNext(root, {
       ok, signal: ctx.signal,
-      text: blank ? `${w.word}: ${w.def}.` : `“${filled}”`,
+      text: blank ? h('div', {}, h('b', {}, w.word), sayRow(w.word, w.say, true), `${w.def}.`) : `“${filled}”`,
       label: i === list.length - 1 ? 'See results' : 'Next',
     });
   }

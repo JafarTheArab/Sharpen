@@ -15,6 +15,7 @@ let n = 0; const ok = (name) => { n++; console.log('✓', name); };
 // Content sanity
 assert.equal(new Set(WORDS.map((w) => w.word)).size, WORDS.length, 'duplicate word');
 for (const w of WORDS) assert.equal(w.sentence.split('___').length, 2, `sentence for ${w.word} needs one blank`);
+for (const w of WORDS) assert.match(w.say || '', /[A-Z]/, `${w.word} needs a pronunciation with a stressed (CAPS) part`);
 for (const t of [1, 2, 3]) for (const p of ['adj', 'noun', 'verb']) assert.ok(WORDS.filter((w) => w.tier === t && w.pos === p).length >= 3, `tier ${t} ${p}`);
 for (const s of SENTENCES) assert.notEqual(s.right, s.wrong);
 assert.equal(new Set(LIST_WORDS).size, LIST_WORDS.length, 'duplicate list word');

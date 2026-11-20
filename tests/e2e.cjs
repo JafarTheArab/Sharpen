@@ -99,6 +99,7 @@ async function playGame(page, name, shot) {
     // Word Power / Clear Writing
     await page.waitForSelector('.choice, .result .score');
     if (await page.$('.result .score')) return;
+    if (await page.$('.prompt .speak')) await page.click('.prompt .speak'); // the 🔊 button must not break anything
     const btns = await page.$$('.choice');
     await btns[step % btns.length].click();
     if (!shotTaken) { await shot(`3-play-${name.replace(/\s/g, '')}`); shotTaken = true; }
