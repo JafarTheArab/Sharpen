@@ -1,6 +1,7 @@
 // Mental Math: 60 seconds, four answer buttons, difficulty nudges up on a streak and down on a miss.
 import { randInt as ri, pick, shuffle, h, clamp } from '../util.js';
 import { ask } from './ui.js';
+import { speedFrom } from '../scoring.js';
 
 export const SECONDS = 60;
 export const target = (level) => Math.max(8, 16 - level); // answers in 60 s that count as a full score
@@ -102,6 +103,7 @@ export async function run(root, ctx) {
       const res = await Promise.race([asked, timeout]);
       if (!res) break; // time ran out before an answer
       answered++;
+      ctx.hit(res.ok, speedFrom(res.ms, 1500, 7000), res.btn, 30); // many quick answers, so fewer points each
       if (res.ok) {
         right++; streak++;
         if (streak >= 4) { eff = Math.min(ctx.level + 2, 10, eff + 1); streak = 0; }
@@ -116,7 +118,7 @@ export async function run(root, ctx) {
   // Speed counts most; wrong answers only cost you once accuracy drops under 90% (so guessing doesn't pay).
   const pct = Math.round(100 * Math.min(1, right / target(ctx.level)) * Math.min(1, acc / 0.9));
   return {
-    pct, summary: `${right} right in ${SECONDS} seconds`,
+    pct, right, summary: `${right} right in ${SECONDS} seconds`,
     extra: answered ? `${Math.round(acc * 100)}% of your answers were right. Goal at this level: ${target(ctx.level)}.` : '',
     review: missed, reviewNote: missed.length ? '' : 'No misses. Nice.',
   };

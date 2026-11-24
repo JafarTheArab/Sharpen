@@ -25,16 +25,18 @@ export function levelAfter(level, pct) {
   return level;
 }
 
-export function recordResult(data, id, pct, day) {
+export function recordResult(data, id, pct, day, points = null) {
   const g = (data.games[id] ||= { level: 1, history: [], last: null });
   const before = g.level;
+  const prevBest = g.best || 0;
+  if (points != null) g.best = Math.max(prevBest, points);
   g.level = levelAfter(g.level, pct);
   g.last = day;
-  g.history.push({ d: day, pct, level: before });
+  g.history.push({ d: day, pct, level: before, pts: points });
   if (g.history.length > 90) g.history.splice(0, g.history.length - 90);
   const today = todayPlan(data, day);
   if (today.plan.includes(id) && today.done[id] == null) today.done[id] = pct;
-  return { before, after: g.level };
+  return { before, after: g.level, prevBest, newBest: points != null && points > prevBest && prevBest > 0 };
 }
 
 export const workoutDone = (data, day) => {

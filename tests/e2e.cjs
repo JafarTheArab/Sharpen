@@ -42,6 +42,13 @@ const AREA = { 'Word Power': 'Vocabulary', 'Mental Math': 'Quick Math', 'List Re
   await page.waitForSelector('.done-note');
   await shot('6-home-done');
 
+  // Progress screen
+  await page.click('#progress');
+  await page.waitForSelector('.stats');
+  await shot('6b-progress');
+  await page.click('text=‹ Home');
+  await page.waitForSelector('.done-note');
+
   // Extra practice on the game not in today's workout, then quit midway
   const extra = Object.keys(AREA).find((n) => !seen.includes(n));
   await page.click(`.skill:has-text("${AREA[extra]}")`);

@@ -8,6 +8,8 @@ import { WORDS } from '../js/content/words.js';
 import { SENTENCES } from '../js/content/sentences.js';
 import { LIST_WORDS } from '../js/content/listwords.js';
 import { addDays, seeded } from '../js/util.js';
+import { makeScore, hit, multiplier, speedFrom } from '../js/scoring.js';
+import { award, longestStreak, workoutCount } from '../js/badges.js';
 
 const fresh = () => ({ games: {}, words: {}, seen: {}, days: {} });
 let n = 0; const ok = (name) => { n++; console.log('✓', name); };
@@ -88,6 +90,33 @@ ok('levels: +2 for perfect, +1 at 85%+, -1 under 55%');
     assert.equal(new Set([p.a.show, ...w.map((x) => x.show)]).size, 4, p.q);
   }
   ok('math problems at all 10 levels');
+}
+
+// Points and combos
+{
+  const s = makeScore();
+  assert.equal(hit(s, true, 0), 100);
+  assert.equal(hit(s, true, 1), 200);
+  assert.equal(hit(s, true, 0), 200, 'x2 from 3 in a row');
+  assert.equal(hit(s, false), 0); assert.equal(s.combo, 0); assert.equal(s.bestCombo, 3);
+  assert.equal(multiplier(9), 4); assert.equal(multiplier(30), 4);
+  assert.equal(speedFrom(1000, 3000, 15000), 1); assert.equal(speedFrom(15000, 3000, 15000), 0);
+  ok('points and combos');
+}
+
+// Badges, best streak
+{
+  const d = fresh(); let day = '2026-11-01';
+  for (let i = 0; i < 3; i++) { for (const id of todayPlan(d, day).plan) recordResult(d, id, 70, day, 500); day = addDays(day, 1); }
+  day = addDays(day, 2); for (const id of todayPlan(d, day).plan) recordResult(d, id, 70, day, 500);
+  assert.equal(longestStreak(d), 3); assert.equal(workoutCount(d), 4);
+  const got = award(d, day, { id: 'math', pct: 100, points: 2500, bestCombo: 11, right: 21 }).map((b) => b.id);
+  for (const b of ['first', 'perfect', 'combo10', 'points2000', 'math20']) assert.ok(got.includes(b), b);
+  assert.ok(!got.includes('streak7'));
+  assert.equal(award(d, day, null).length, 0, 'badges are only awarded once');
+  const r = recordResult(d, 'math', 90, day, 3000);
+  assert.ok(r.newBest);
+  ok('badges and personal bests');
 }
 
 console.log(`\nAll ${n} checks passed.`);

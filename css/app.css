@@ -157,3 +157,57 @@ p { margin: 6px 0; }
   .choices.grid { grid-template-columns: repeat(4, 1fr); }
   .tiles { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
 }
+
+/* ---------- Stage 2: game feel ---------- */
+.btn.soft { background: var(--card); color: var(--accent); box-shadow: var(--shadow); min-height: 40px; padding: 8px 14px; font-size: 15px; }
+.hud { display: flex; justify-content: space-between; align-items: center; min-height: 28px; margin-top: -6px; font-weight: 800; }
+.hud-pts { font-variant-numeric: tabular-nums; }
+.hud-pts.bump { animation: bump .25s ease; }
+.hud-combo { color: #c2410c; font-size: 15px; }
+@media (prefers-color-scheme: dark) { .hud-combo { color: #fdba74; } }
+@keyframes bump { 50% { transform: scale(1.18); } }
+.timebar.q { height: 6px; margin-top: -4px; }
+.timebar.q .fill { background: var(--accent); transition-property: width; transition-timing-function: linear; }
+.choice.pop { animation: pop .3s ease; }
+.choice.shake, .tile.wrong { animation: shake .35s ease; }
+@keyframes pop { 40% { transform: scale(1.05); } }
+@keyframes shake { 20%, 60% { transform: translateX(-7px); } 40%, 80% { transform: translateX(7px); } }
+.float { position: fixed; z-index: 50; transform: translate(-50%, 0); pointer-events: none; font-weight: 900; font-size: 22px;
+  color: var(--right); animation: floatup .9s ease-out forwards; text-shadow: 0 1px 0 var(--card); }
+@keyframes floatup { to { transform: translate(-50%, -60px); opacity: 0; } }
+.toast { position: fixed; z-index: 60; left: 50%; top: 32%; transform: translate(-50%, -50%); pointer-events: none;
+  background: var(--accent); color: #fff; font-weight: 900; font-size: 28px; padding: 12px 24px; border-radius: 999px;
+  box-shadow: 0 10px 30px rgba(60, 40, 160, .35); animation: toast 1.2s ease forwards; white-space: nowrap; }
+@keyframes toast { 0% { transform: translate(-50%, -50%) scale(.5); opacity: 0; } 15% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
+  25% { transform: translate(-50%, -50%) scale(1); } 80% { opacity: 1; } 100% { opacity: 0; transform: translate(-50%, -70%); } }
+.confetti-layer { position: fixed; inset: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 70; }
+.pts-row { display: flex; justify-content: center; gap: 36px; }
+.pts-v { font-size: 22px; font-weight: 900; }
+.pill.best { background: #fff3c4; color: #8a5a00; }
+@media (prefers-color-scheme: dark) { .pill.best { background: #3a2f10; color: #ffd76a; } }
+.new-badges .row { padding: 6px 0; }
+@media (prefers-reduced-motion: reduce) { .choice.pop, .choice.shake, .tile.wrong, .hud-pts.bump { animation: none; } }
+
+/* ---------- Progress ---------- */
+.ptitle { font-weight: 800; font-size: 19px; }
+.stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.stat { background: var(--card); border-radius: 18px; padding: 14px 16px; box-shadow: var(--shadow); }
+.stat-v { font-size: 28px; font-weight: 900; font-variant-numeric: tabular-nums; }
+.right-text { text-align: right; }
+.tiny { font-size: 12px; }
+.chart-wrap { display: flex; flex-direction: column; gap: 4px; }
+.readout { font-size: 14px; font-weight: 700; color: var(--text); min-height: 1.3em; font-variant-numeric: tabular-nums; }
+.chart { width: 100%; height: auto; touch-action: none; overflow: visible; }
+.chart .grid { stroke: var(--line); stroke-width: 1; }
+.chart .axis { stroke: var(--muted); stroke-width: 1; opacity: .5; }
+.chart .tick { fill: var(--muted); font-size: 11px; font-family: inherit; }
+.chart .tick.strong { fill: var(--text); font-weight: 700; }
+.chart .cross { stroke: var(--muted); stroke-width: 1; stroke-dasharray: 3 3; }
+.chart .dot { stroke: var(--card); stroke-width: 2; }
+.chart .hl { fill: var(--line); opacity: .6; }
+.badges { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.badge { background: var(--bg); border-radius: 14px; padding: 10px 6px; text-align: center; opacity: .55; }
+.badge.on { opacity: 1; background: var(--card); box-shadow: inset 0 0 0 2px var(--accent); }
+.bicon { font-size: 28px; }
+.bicon.big { font-size: 36px; width: 48px; text-align: center; }
+.bname { font-weight: 800; font-size: 13px; margin-top: 2px; }

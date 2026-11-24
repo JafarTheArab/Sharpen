@@ -2,6 +2,9 @@
 import { SENTENCES } from '../content/sentences.js';
 import { shuffle } from '../util.js';
 import { ask, explainAndNext } from './ui.js';
+import { speedFrom } from '../scoring.js';
+
+export const TIME_LIMIT = 20000;
 
 export const ROUND = 8;
 
@@ -29,9 +32,10 @@ export async function run(root, ctx) {
     const s = items[i];
     ctx.status(`${i + 1} / ${items.length}`);
     const options = shuffle([s.right, s.wrong]);
-    const { ok } = await ask(root, {
-      prompt: 'Which one is written correctly?', options, correct: options.indexOf(s.right), signal: ctx.signal,
+    const { ok, ms, btn } = await ask(root, {
+      prompt: 'Which one is written correctly?', options, correct: options.indexOf(s.right), signal: ctx.signal, timeLimit: TIME_LIMIT,
     });
+    ctx.hit(ok, speedFrom(ms, 4000, TIME_LIMIT), btn);
     if (ok) right++;
     seen[s.id] = ctx.day;
     review.push({ ok, title: s.right, detail: s.why });

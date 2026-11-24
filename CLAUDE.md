@@ -32,6 +32,13 @@ app; never scrape or copy from dictionaries or other apps.
   (every word needs a "say it" respelling; `SPEAK_AS` fixes words the phone voice says wrong). `js/speak.js`: 🔊 button
   using the built-in Web Speech voice. Avoid near-synonyms in the same tier (they become wrong
   answers for each other).
+- Stage 2 (2026-11-24, game feel + progress): `js/scoring.js` (points, combo multiplier x1-x4, speed bonus),
+  `js/fx.js` (Web Audio blips, iOS 18 haptic via hidden switch input, floating +points, combo toasts, confetti,
+  Sound/Vibration toggles in `data.settings`), per-question time bar (bonus only, never ends a question),
+  `js/badges.js` (17 badges in `data.badges`), `js/progress.js` + `js/charts.js` (stats, 7-day points bars,
+  per-game points line chart, badges). Games call `ctx.hit(ok, speed, el, base)` / `ctx.add(n)`; history rows have `pts`,
+  `games[id].best` = best points. Math uses base 30 per answer (many answers) to stay in line with the other games.
+- Next (user asked): more game variety (new games in the daily mix).
 - Levels: 100% jumps up two, 85%+ goes up one, under 55% goes down one.
 - Answers and main buttons sit at the bottom of the screen (thumb reach, user's request); main buttons use `.dock`.
 

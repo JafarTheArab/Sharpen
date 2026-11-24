@@ -35,6 +35,9 @@ export async function run(root, ctx) {
     const got = picked.filter((w) => list.includes(w)).length;
     hits += got; shown += n;
     const all = got === n;
+    // full list: combo + bonus; partial: a little credit per word found
+    if (all) ctx.hit(true, 0, root.querySelector('.tile.right'), 40 * n);
+    else { ctx.hit(false); ctx.add(got * 20); }
     review.push({ n, ok: all, title: `List of ${n}: ${got} found`, detail: all ? 'All of them ✓' : 'Missed: ' + list.filter((w) => !picked.includes(w)).join(', ') });
     await new Promise((resolve, reject) => {
       root.querySelector('.tiles').before(h('div', { class: 'explain ' + (all ? 'ok' : 'bad') },
@@ -46,6 +49,7 @@ export async function run(root, ctx) {
     n = clamp(all ? n + 1 : n - 1, 3, 14);
   }
   return {
+    longest: Math.max(0, ...review.filter((r) => r.ok).map((r) => r.n)),
     pct: Math.round((100 * hits) / shown),
     summary: `${hits} of ${shown} words remembered`,
     extra: review.some((r) => r.ok)
