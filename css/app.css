@@ -211,3 +211,11 @@ p { margin: 6px 0; }
 .bicon { font-size: 28px; }
 .bicon.big { font-size: 36px; width: 48px; text-align: center; }
 .bname { font-weight: 800; font-size: 13px; margin-top: 2px; }
+
+/* ---------- Word Power: harder question kinds ---------- */
+.def-q { font-size: 21px; font-weight: 600; line-height: 1.4; }
+.choices.typed { gap: 10px; }
+.type-in { font: inherit; font-size: 24px; font-weight: 700; text-align: center; letter-spacing: 1px; padding: 14px;
+  border-radius: 16px; border: 2px solid var(--line); background: var(--card); color: var(--text); width: 100%; }
+.type-in:focus { outline: none; border-color: var(--accent); }
+.choices.typed .choice { text-align: center; font-weight: 800; }

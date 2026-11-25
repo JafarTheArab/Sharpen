@@ -1,7 +1,8 @@
 // node tests/logic.test.mjs  — plan, streak, levels, word review, math problems.
 import assert from 'node:assert/strict';
 import { todayPlan, recordResult, streak, levelAfter, workoutDone } from '../js/plan.js';
-import { pickWords, updateWord, ROUND as VROUND } from '../js/games/vocab.js';
+import { pickWords, updateWord, ROUND as VROUND, kindsFor, pickKind, typedRight, tiersFor } from '../js/games/vocab.js';
+import { pickMisspellings } from '../js/content/misspell.js';
 import { pickItems } from '../js/games/writing.js';
 import { problem, wrongAnswers } from '../js/games/math.js';
 import { WORDS } from '../js/content/words.js';
@@ -18,7 +19,7 @@ let n = 0; const ok = (name) => { n++; console.log('✓', name); };
 assert.equal(new Set(WORDS.map((w) => w.word)).size, WORDS.length, 'duplicate word');
 for (const w of WORDS) assert.equal(w.sentence.split('___').length, 2, `sentence for ${w.word} needs one blank`);
 for (const w of WORDS) assert.match(w.say || '', /[A-Z]/, `${w.word} needs a pronunciation with a stressed (CAPS) part`);
-for (const t of [1, 2, 3]) for (const p of ['adj', 'noun', 'verb']) assert.ok(WORDS.filter((w) => w.tier === t && w.pos === p).length >= 3, `tier ${t} ${p}`);
+for (const t of [1, 2, 3, 4]) for (const p of ['adj', 'noun', 'verb']) assert.ok(WORDS.filter((w) => w.tier === t && w.pos === p).length >= 3, `tier ${t} ${p}`);
 for (const s of SENTENCES) assert.notEqual(s.right, s.wrong);
 assert.equal(new Set(LIST_WORDS).size, LIST_WORDS.length, 'duplicate list word');
 assert.ok(LIST_WORDS.length >= 30);
@@ -117,6 +118,25 @@ ok('levels: +2 for perfect, +1 at 85%+, -1 under 55%');
   const r = recordResult(d, 'math', 90, day, 3000);
   assert.ok(r.newBest);
   ok('badges and personal bests');
+}
+
+// Top levels: expert words and harder question kinds
+{
+  assert.deepEqual(tiersFor(10), [4]);
+  assert.deepEqual(kindsFor(1), ['meaning', 'blank']);
+  assert.ok(kindsFor(10).includes('type') && kindsFor(10).includes('spell'));
+  const set = new Set(WORDS.map((w) => w.word));
+  for (const w of WORDS.filter((x) => x.tier >= 2)) {
+    const m = pickMisspellings(w.word, Math.random, set);
+    assert.equal(m.length, 3, w.word);
+    assert.ok(m.every((x) => x !== w.word && !set.has(x)), w.word);
+  }
+  const imply = WORDS.find((w) => w.word === 'imply');
+  for (let i = 0; i < 50; i++) assert.notEqual(pickKind(10, { ...imply, word: 'xx' }), 'spell', 'no spelling question without 3 misspellings');
+  assert.ok(typedRight('  Sinecure ', 'sinecure')); assert.ok(!typedRight('sinecur', 'sinecure'));
+  const picked = pickWords(10, {}, '2026-11-25');
+  assert.ok(picked.every((w) => w.tier === 4));
+  ok('expert words, spelling and typing questions');
 }
 
 console.log(`\nAll ${n} checks passed.`);

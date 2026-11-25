@@ -10,7 +10,7 @@ import { sound, buzz, floatText, toast, confetti, toggles } from './fx.js';
 import { award } from './badges.js';
 import { progressScreen, pointsOn } from './progress.js';
 
-export const VERSION = 'Stage 2.0 · 2026-11-24';
+export const VERSION = 'Stage 2.1 · 2026-11-25';
 const app = document.getElementById('app');
 let running = null; // AbortController of the game being played
 let onHome = false;

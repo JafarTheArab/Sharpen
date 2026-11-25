@@ -98,5 +98,8 @@ const RAW = [
 
 import { MORE_WORDS } from './words-more.js';
 import { SAY } from './pronounce.js';
+import { EXPERT_WORDS } from './words-expert.js';
 
 export const WORDS = [...RAW, ...MORE_WORDS].map(([word, pos, def, sentence, tier]) => ({ word, pos, def, sentence, tier, say: SAY[word] }));
+// Tier 4 carries its own pronunciation.
+WORDS.push(...EXPERT_WORDS.map(([word, pos, def, sentence, tier, say]) => ({ word, pos, def, sentence, tier, say })));

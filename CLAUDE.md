@@ -38,6 +38,10 @@ app; never scrape or copy from dictionaries or other apps.
   `js/badges.js` (17 badges in `data.badges`), `js/progress.js` + `js/charts.js` (stats, 7-day points bars,
   per-game points line chart, badges). Games call `ctx.hit(ok, speed, el, base)` / `ctx.add(n)`; history rows have `pts`,
   `games[id].best` = best points. Math uses base 30 per answer (many answers) to stay in line with the other games.
+- 2026-11-25: user hit vocab level 10 and it plateaued. Added tier 4 (`words-expert.js`, ~70 expert words, carries its
+  own respelling) and question kinds by level (`kindsFor`): meaning, blank; reverse (def -> word) from 5; spelling from 7
+  (`content/misspell.js` makes believable misspellings); type-the-word from 9. Time bar 15 s -> 12 s (7+) -> 10 s (9+).
+  Levels 9-10 draw from tiers 3-4 / 4. When tier 4 is mostly learned, add more expert words.
 - Next (user asked): more game variety (new games in the daily mix).
 - Levels: 100% jumps up two, 85%+ goes up one, under 55% goes down one.
 - Answers and main buttons sit at the bottom of the screen (thumb reach, user's request); main buttons use `.dock`.
@@ -45,7 +49,8 @@ app; never scrape or copy from dictionaries or other apps.
 ## Tests (run from the repo root)
 - `node tests/logic.test.mjs`: content sanity, plan, streak, levels, word review, math at all levels.
 - `python3 -m http.server 8766` then `node tests/e2e.cjs`: plays a whole workout in a phone-sized browser,
-  plus math in landscape. Screenshots in `tests/out/` (gitignored). Look at them before reporting a stage.
+  plus math in landscape. `node tests/vocab-top-e2e.cjs`: Word Power at level 10 (all question kinds, typing).
+  Screenshots in `tests/out/` (gitignored). Look at them before reporting a stage.
 
 ## Conventions
 - Commit as the user (author `Justin <justfar@live.com>`), committer Claude <noreply@anthropic.com> (a hook requires it:
